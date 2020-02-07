@@ -24,15 +24,108 @@
             </div>
         </h3>
 
+        <ng-template ng-if="atribuido[0].atribuicao === 'Titular'">
+            <div class="form-group">
+                <label for="titular.PerfilViajante">Qual documento para embarque? *</label>
+                <select class="form-control" name="tipoDeDocumento" ng-model="titular.PerfilViajante"
+                    ng-change="syncForm()"  ng-required="true">
+                    <option value="rg">RG</option>
+                    <option value="passaporte">Passaporte</option>
+                </select>
+                
+                <span class="material-icons form-control-feedback"
+                    ng-if="userForm['tipoDeDocumento'].$error.required">clear</span>
+            </div>
+
+            <div class="form-group" ng-if="titular.PerfilViajante === 'rg'">
+                <label for="TitularRg.Numero">Número do RG *</label>
+                <input type="text" id="TitularRg.Numero" name="TitularRg.Numero" class="form-control" maxlength="100"
+                    placeholder="" ng-required="true" ng-model="titular.Rg.Numero">
+                <span class="material-icons form-control-feedback"
+                    ng-if="userForm['TitularRg.Numero'].$error.required">clear</span>
+            </div>
+
+            <div class="form-group" ng-if="titular.PerfilViajante === 'passaporte'">
+                <label for="nmrDoPassaporteTitular">Número do Passaporte *</label>
+                <input type="text" id="nmrDoPassaporteTitular" name="nmrDoPassaporteTitular" class="form-control"
+                    maxlength="100" placeholder="" ng-required="true" ng-model="titular.Passaporte.Numero">
+                <span class="material-icons form-control-feedback"
+                    ng-if="userForm['nmrDoPassaporteTitular'].$error.length.required">clear</span>
+            </div>
+
+            <div class="form-group" ng-if="titular.PerfilViajante === 'passaporte'">
+                <label for="dataPassaporteTitular">Validade do Passaporte *</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="dataPassaporteTitular" id="dataPassaporteTitular"
+                        ng-model="titular.Passaporte.Validade" uib-datepicker-popup="d!/M!/yyyy" ng-required="true"
+                        is-open="dataPassaporteTitular.opened" show-button-bar="false" datepicker-options="{maxDate:validadePassaporteMaxima}" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"
+                            ng-click="abreCalendario(dataPassaporteTitular)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+                <span class="material-icons form-control-feedback"
+                    ng-if="userForm['dataPassaporteTitular'].$error.required">clear</span>
+            </div>
+
+        </ng-template>
+
+        <ng-template ng-if="titular.Wave === 1 && atribuido[0].atribuicao === 'Acompanhante'">
+            <div class="form-group">
+                <label for="acompanhante.PerfilViajante">Qual documento para embarque? *</label>
+                <select class="form-control" name="tipoDeDocumentoAcompanhante" ng-model="acompanhante.PerfilViajante"
+                    ng-change="syncForm()" ng-required="true">
+                    <option value="rg">RG</option>
+                    <option value="passaporte">Passaporte</option>
+                </select>
+                <span class="material-icons form-control-feedback"
+                    ng-if="userForm['tipoDeDocumentoAcompanhante'].$error.required">clear</span>
+            </div>
+
+            <div class="form-group" ng-if="acompanhante.PerfilViajante === 'rg'">
+                <label for="AcompanhanteRg.Numero">Número do RG *</label>
+                <input type="text" id="AcompanhanteRg.Numero" name="AcompanhanteRg.Numero" class="form-control"
+                    maxlength="100" placeholder="" ng-required="true" ng-model="acompanhante.Rg.Numero">
+                <span class="material-icons form-control-feedback"
+                    ng-if="userForm['AcompanhanteRg.Numero'].$error.required">clear</span>
+            </div>
+
+            <div class="form-group" ng-if="acompanhante.PerfilViajante === 'passaporte'">
+                <label for="nmrDoPassaporteAcompanhante">Número do Passaporte *</label>
+                <input type="text" id="nmrDoPassaporteAcompanhante" name="nmrDoPassaporteAcompanhante"
+                    class="form-control" maxlength="100" placeholder="" ng-required="true"
+                    ng-model="acompanhante.Passaporte.Numero">
+                <span class="material-icons form-control-feedback"
+                    ng-if="userForm['nmrDoPassaporteAcompanhante'].$error.length.required">clear</span>
+            </div>
+
+            <div class="form-group" ng-if="acompanhante.PerfilViajante === 'passaporte'">
+                <label for="dataPassaporteAcompanhante">Validade do Passaporte *</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="dataPassaporteAcompanhante"
+                        id="dataPassaporteAcompanhante" ng-model="acompanhante.Passaporte.Validade"
+                        uib-datepicker-popup="d!/M!/yyyy" ng-required="true" is-open="dataPassaporteAcompanhante.opened"
+                        show-button-bar="false" datepicker-options="{maxDate:validadePassaporteMaxima}"  />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"
+                            ng-click="abreCalendario(dataPassaporteAcompanhante)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+                <span class="material-icons form-control-feedback"
+                    ng-if="userForm['dataPassaporteAcompanhante'].$error.required">clear</span>
+            </div>
+
+        </ng-template>
+        <!-- <pre>{{userForm | json}}</pre> -->
+
         <div class="form-group" ng-repeat="campo in atribuido"
             ng-if="(atribuido[0].atribuicao === 'Titular') || (titular.Wave === 0 && atribuido[0].atribuicao !== 'Acompanhante') || (titular.Wave === 1 && atribuido[0].atribuicao === 'Acompanhante')">
 
-            <!-- <pre>{{campo | json}}</pre> -->
-
             <!-- label padrao para todos os campos -->
 
-            <label for="{{atribuido[0].atribuicao + campo.key}}"
-                ng-if="campo.key !== 'Rg.Numero' || campo.key !==  'Passaporte.Numero' || campo.key !== 'Passaporte.Validade'">
+            <label for="{{atribuido[0].atribuicao + campo.key}}">
                 <span>{{checkLabel(campo.label, campo.customLabel)}}</span>
                 <span ng-show="campo.obrigatorio">*</span>
                 <br>
@@ -42,16 +135,15 @@
             <!-- campos de texto / tel -->
 
             <input
-                ng-if="(campo.type === 'text' && campo.colmaSeparatedOptions === null && campo.key !== 'Rg.Numero' && campo.key !==  'Passaporte.Numero' ) || (campo.type === 'tel') || (campo.type === 'number')"
+                ng-if="(campo.type === 'text' && campo.colmaSeparatedOptions === null ) || (campo.type === 'tel') || (campo.type === 'number')"
                 type="{{campo.type}}" id="{{atribuido[0].atribuicao + campo.key}}"
                 name="{{atribuido[0].atribuicao + campo.key}}" class="form-control" maxlength="{{campo.tamanhoMaximo}}"
                 minlength="{{campo.tamanhoMinimo}}" placeholder="" ui-mask="{{campo.mascara}}"
                 ng-required="campo.obrigatorio" ng-model="campo.value">
 
-
             <!-- campo de data em uma string -->
 
-            <div class="input-group" ng-if="(campo.type === 'date-string' && campo.key !== 'Passaporte.Validade')">
+            <div class="input-group" ng-if="(campo.type === 'date-string')">
                 <input type="text" class="form-control" name="{{atribuido[0].atribuicao + campo.key}}"
                     id="{{atribuido[0].atribuicao + campo.key}}" ng-model="campo.value"
                     uib-datepicker-popup="d!/M!/yyyy" ng-required="campo.obrigatorio" is-open="campo.opened"
@@ -62,27 +154,6 @@
                 </span>
             </div>
 
-            <!-- campo rg, numero de passaporte e vencimento de passaporte -->
-
-            <div ng-if="campo.key === 'Rg.Numero'">
-                <select
-                    ng-if="(campo.type === 'select') || (campo.type === 'text' && campo.colmaSeparatedOptions !== null)"
-                    class="form-control" name="{{atribuido[0].atribuicao + campo.key}}"
-                    id="{{atribuido[0].atribuicao + campo.key}}" ng-model="campo.value"
-                    ng-options="option.value as option.name for option in campo.options"
-                    ng-required="campo.obrigatorio">
-                </select>
-            </div>
-
-            <div
-                ng-if="campo.key === 'Rg.Numero' || campo.key ===  'Passaporte.Numero' || campo.key === 'Passaporte.Validade'">
-                <hr>
-                <hr>
-                diferentes
-                {{campo.key}}
-                <hr>
-                <hr>
-            </div>
 
             <!-- email (lowercase) -->
 
