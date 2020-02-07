@@ -123,12 +123,15 @@
         <div class="form-group" ng-repeat="campo in atribuido"
             ng-if="(atribuido[0].atribuicao === 'Titular') || (titular.Wave === 0 && atribuido[0].atribuicao !== 'Acompanhante') || (titular.Wave === 1 && atribuido[0].atribuicao === 'Acompanhante')">
 
+            <!-- <pre>{{campo | json}}</pre> -->
+
             <!-- label padrao para todos os campos -->
 
             <label for="{{atribuido[0].atribuicao + campo.key}}">
                 <span>{{checkLabel(campo.label, campo.customLabel)}}</span>
                 <span ng-show="campo.obrigatorio">*</span>
                 <br>
+                <small ng-if="campo.descricaoLonga || campo.customDescricaoLonga">{{campo.descricaoLonga | iif : campo.descricaoLonga : campo.customDescricaoLonga}}</small>
                 <small> <em>{{campo.customPlaceholder | iif : campo.customPlaceholder : campo.placeholder}}</em></small>
             </label>
 
