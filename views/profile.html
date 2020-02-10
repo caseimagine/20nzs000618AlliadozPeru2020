@@ -24,18 +24,22 @@
             </div>
         </h3>
 
+        <!-- campos customizados para titular -->
+
         <ng-template ng-if="atribuido[0].atribuicao === 'Titular'">
             <div class="form-group">
                 <label for="titular.PerfilViajante">Qual documento para embarque? *</label>
                 <select class="form-control" name="tipoDeDocumento" ng-model="titular.PerfilViajante"
-                    ng-change="syncForm()"  ng-required="true">
+                    ng-change="syncForm()" ng-required="true">
                     <option value="rg">RG</option>
                     <option value="passaporte">Passaporte</option>
                 </select>
-                
+
                 <span class="material-icons form-control-feedback"
                     ng-if="userForm['tipoDeDocumento'].$error.required">clear</span>
             </div>
+
+            <!-- numero do rg do titular -->
 
             <div class="form-group" ng-if="titular.PerfilViajante === 'rg'">
                 <label for="TitularRg.Numero">Número do RG *</label>
@@ -45,6 +49,26 @@
                     ng-if="userForm['TitularRg.Numero'].$error.required">clear</span>
             </div>
 
+            <!-- emissao do rg do titular -->
+
+            <div class="form-group" ng-if="titular.PerfilViajante === 'rg'">
+                <label for="dataRg.EmissaoTitular">Emissão do RH * <br><small> <em>dd/mm/aaaa</em></small></label>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="dataRg.EmissaoTitular" id="dataRg.EmissaoTitular"
+                        ng-model="titular.Rg.Emissao" uib-datepicker-popup="d!/M!/yyyy" ng-required="true"
+                        is-open="dataRg.EmissaoTitular.opened" show-button-bar="false" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"
+                            ng-click="abreCalendario(dataRg.EmissaoTitular)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+                <span class="material-icons form-control-feedback"
+                    ng-if="userForm['dataRg.EmissaoTitular'].$error.required || userForm['dataRg.EmissaoTitular'].$invalid">clear</span>
+            </div>
+
+            <!-- numero do passaporte do titular -->
+
             <div class="form-group" ng-if="titular.PerfilViajante === 'passaporte'">
                 <label for="nmrDoPassaporteTitular">Número do Passaporte *</label>
                 <input type="text" id="nmrDoPassaporteTitular" name="nmrDoPassaporteTitular" class="form-control"
@@ -53,12 +77,15 @@
                     ng-if="userForm['nmrDoPassaporteTitular'].$error.length.required">clear</span>
             </div>
 
+            <!-- validade do passaporte do titular -->
+
             <div class="form-group" ng-if="titular.PerfilViajante === 'passaporte'">
-                <label for="dataPassaporteTitular">Validade do Passaporte *</label>
+                <label for="dataPassaporteTitular">Validade do Passaporte * <br><small>
+                        <em>dd/mm/aaaa</em></small></label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="dataPassaporteTitular" id="dataPassaporteTitular"
                         ng-model="titular.Passaporte.Validade" uib-datepicker-popup="d!/M!/yyyy" ng-required="true"
-                        is-open="dataPassaporteTitular.opened" show-button-bar="false" datepicker-options="{maxDate:validadePassaporteMaxima}" />
+                        is-open="dataPassaporteTitular.opened" show-button-bar="false" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default"
                             ng-click="abreCalendario(dataPassaporteTitular)"><i
@@ -66,10 +93,17 @@
                     </span>
                 </div>
                 <span class="material-icons form-control-feedback"
-                    ng-if="userForm['dataPassaporteTitular'].$error.required">clear</span>
+                    ng-if="userForm['dataPassaporteTitular'].$error.required || userForm['dataPassaporteTitular'].$invalid">clear</span>
+                <div class="alert alert-primary text-center" role="alert"
+                    ng-if="titular.Passaporte.Validade < validadePassaporteMaxima">
+                    <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Seu passaporte
+                        precisa ser renovado para a viagem</p>
+                </div>
             </div>
 
         </ng-template>
+
+        <!-- campos customizados para acompanhante -->
 
         <ng-template ng-if="titular.Wave === 1 && atribuido[0].atribuicao === 'Acompanhante'">
             <div class="form-group">
@@ -83,6 +117,8 @@
                     ng-if="userForm['tipoDeDocumentoAcompanhante'].$error.required">clear</span>
             </div>
 
+            <!-- numero do rg do acompanhante -->
+
             <div class="form-group" ng-if="acompanhante.PerfilViajante === 'rg'">
                 <label for="AcompanhanteRg.Numero">Número do RG *</label>
                 <input type="text" id="AcompanhanteRg.Numero" name="AcompanhanteRg.Numero" class="form-control"
@@ -90,6 +126,27 @@
                 <span class="material-icons form-control-feedback"
                     ng-if="userForm['AcompanhanteRg.Numero'].$error.required">clear</span>
             </div>
+
+            <!-- emissao do rg do acompanhante -->
+
+            <div class="form-group" ng-if="acompanhante.PerfilViajante === 'rg'">
+                <label for="dataRg.EmissaoAcompanhante">Emissão do RG * <br><small> <em>dd/mm/aaaa</em></small></label>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="dataRg.EmissaoAcompanhante"
+                        id="dataRg.EmissaoAcompanhante" ng-model="acompanhante.Rg.Emissao"
+                        uib-datepicker-popup="d!/M!/yyyy" ng-required="true" is-open="dataRg.EmissaoAcompanhante.opened"
+                        show-button-bar="false" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"
+                            ng-click="abreCalendario(dataRg.EmissaoAcompanhante)"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+                <span class="material-icons form-control-feedback"
+                    ng-if="userForm['dataRg.EmissaoAcompanhante'].$error.required || userForm['dataRg.EmissaoAcompanhante'].$invalid">clear</span>
+            </div>
+
+            <!-- numero do passaporte do acompanhante -->
 
             <div class="form-group" ng-if="acompanhante.PerfilViajante === 'passaporte'">
                 <label for="nmrDoPassaporteAcompanhante">Número do Passaporte *</label>
@@ -100,13 +157,16 @@
                     ng-if="userForm['nmrDoPassaporteAcompanhante'].$error.length.required">clear</span>
             </div>
 
+            <!-- validade do passaporte do acompanhante -->
+
             <div class="form-group" ng-if="acompanhante.PerfilViajante === 'passaporte'">
-                <label for="dataPassaporteAcompanhante">Validade do Passaporte *</label>
+                <label for="dataPassaporteAcompanhante">Validade do Passaporte * <br><small>
+                        <em>dd/mm/aaaa</em></small></label>
                 <div class="input-group">
                     <input type="text" class="form-control" name="dataPassaporteAcompanhante"
                         id="dataPassaporteAcompanhante" ng-model="acompanhante.Passaporte.Validade"
                         uib-datepicker-popup="d!/M!/yyyy" ng-required="true" is-open="dataPassaporteAcompanhante.opened"
-                        show-button-bar="false" datepicker-options="{maxDate:validadePassaporteMaxima}"  />
+                        show-button-bar="false" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default"
                             ng-click="abreCalendario(dataPassaporteAcompanhante)"><i
@@ -114,7 +174,12 @@
                     </span>
                 </div>
                 <span class="material-icons form-control-feedback"
-                    ng-if="userForm['dataPassaporteAcompanhante'].$error.required">clear</span>
+                    ng-if="userForm['dataPassaporteAcompanhante'].$error.required || userForm['dataPassaporteAcompanhante'].$invalid">clear</span>
+                <div class="alert alert-primary text-center" role="alert"
+                    ng-if="acompanhante.Passaporte.Validade < validadePassaporteMaxima">
+                    <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Seu passaporte
+                        precisa ser renovado para a viagem</p>
+                </div>
             </div>
 
         </ng-template>
@@ -131,7 +196,8 @@
                 <span>{{checkLabel(campo.label, campo.customLabel)}}</span>
                 <span ng-show="campo.obrigatorio">*</span>
                 <br>
-                <small ng-if="campo.descricaoLonga || campo.customDescricaoLonga">{{campo.descricaoLonga | iif : campo.descricaoLonga : campo.customDescricaoLonga}}</small>
+                <small
+                    ng-if="campo.descricaoLonga || campo.customDescricaoLonga">{{campo.descricaoLonga | iif : campo.descricaoLonga : campo.customDescricaoLonga}}</small>
                 <small> <em>{{campo.customPlaceholder | iif : campo.customPlaceholder : campo.placeholder}}</em></small>
             </label>
 
