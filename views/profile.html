@@ -30,7 +30,7 @@
             <div class="form-group">
                 <label for="titular.PerfilViajante">Qual documento para embarque? *</label>
                 <select class="form-control" name="tipoDeDocumento" ng-model="titular.PerfilViajante"
-                    ng-change="syncForm()" ng-required="true">
+                     ng-required="true">
                     <option value="rg">RG</option>
                     <option value="passaporte">Passaporte</option>
                 </select>
@@ -99,6 +99,7 @@
                     <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Seu passaporte
                         precisa ser renovado para a viagem</p>
                 </div>
+                
             </div>
 
         </ng-template>
@@ -109,7 +110,7 @@
             <div class="form-group">
                 <label for="acompanhante.PerfilViajante">Qual documento para embarque? *</label>
                 <select class="form-control" name="tipoDeDocumentoAcompanhante" ng-model="acompanhante.PerfilViajante"
-                    ng-change="syncForm()" ng-required="true">
+                     ng-required="true">
                     <option value="rg">RG</option>
                     <option value="passaporte">Passaporte</option>
                 </select>
